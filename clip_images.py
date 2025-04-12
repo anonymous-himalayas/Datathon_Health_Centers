@@ -40,20 +40,20 @@ def create_sample_images():
     for i in range(len(mal_images)):
         source_path = mal_images[i] + '.jpg'
         destination_path = os.path.join('sample_images/malignant', source_path).replace("\\","/")
-        print(destination_path)
-
-        os.symlink(source_path, destination_path)
+        shutil.copy('isic-2024-challenge/train-image/image/' + source_path, destination_path) 
+       
+        
         
     # add random benign images to the directory
     benign_images = isic_train[isic_train['target'] == 0]
     benign_images = benign_images['isic_id'].tolist()
 
-    benign_images = random.sample(benign_images, len(mal_images))
+    benign_images = random.sample(benign_images, len(mal_images) * 2)
 
     for i in range(len(benign_images)):
         source_path = benign_images[i] + '.jpg'
         destination_path = os.path.join('sample_images/benign', source_path)
-        os.symlink(source_path, destination_path)
+        shutil.copy('isic-2024-challenge/train-image/image/' + source_path, destination_path)
 
 def embed_image(image_path):
     try:
@@ -106,7 +106,7 @@ if __name__ == "__main__":
     print(f"Loaded {len(embeddings)} images.")
 
     # test
-    uploaded_img = "sample_image.jpg"  
+    uploaded_img = "normal2.jpg"  
     score, _ = predict_image(uploaded_img)
 
     if score is not None:
