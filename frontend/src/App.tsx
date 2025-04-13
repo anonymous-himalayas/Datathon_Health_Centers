@@ -1,127 +1,131 @@
-import { useState } from 'react'
-import { MapPinIcon, UploadIcon } from '@heroicons/react/24/outline'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { ShieldCheck, Stethoscope, MapPin, ArrowRight } from 'lucide-react';
+import About from './pages/About';
+import HowItWorks from './pages/HowItWorks';
+import FAQ from './pages/FAQ';
+import Scan from './pages/Scan';
 
-function App() {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  const [prediction, setPrediction] = useState<string | null>(null)
-  const [confidence, setConfidence] = useState<number | null>(null)
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setSelectedImage(reader.result as string)
-      }
-      reader.readAsDataURL(file)
-    }
-  }
-
-  const handlePredict = async () => {
-    // TODO: Implement prediction logic with your ML model
-    // This is a placeholder
-    setPrediction("Benign")
-    setConfidence(95)
-  }
-
+// Create a Layout component for the header and footer
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900">Skin Cancer Detection</h1>
-        </div>
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-white to-gray-50">
+      <header className="px-4 lg:px-6 h-16 flex items-center border-b bg-white">
+        <Link className="flex items-center justify-center" to="/">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="h-6 w-6 text-teal-600" />
+            <span className="text-xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+              SkinScan
+            </span>
+          </div>
+        </Link>
+        <nav className="ml-auto flex gap-4 sm:gap-6">
+          <Link className="text-sm font-medium hover:text-teal-600 transition-colors" to="/about">
+            About
+          </Link>
+          <Link className="text-sm font-medium hover:text-teal-600 transition-colors" to="/how-it-works">
+            How It Works
+          </Link>
+          <Link className="text-sm font-medium hover:text-teal-600 transition-colors" to="/faq">
+            FAQ
+          </Link>
+        </nav>
       </header>
 
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="bg-white shadow rounded-lg p-6">
-            <div className="space-y-6">
-              {/* Image Upload Section */}
-              <div className="space-y-4">
-                <label className="block text-lg font-medium text-gray-700">
-                  Upload Skin Image
-                </label>
-                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
-                  <div className="space-y-1 text-center">
-                    <UploadIcon className="mx-auto h-12 w-12 text-gray-400" />
-                    <div className="flex text-sm text-gray-600">
-                      <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500">
-                        <span>Upload a file</span>
-                        <input
-                          id="file-upload"
-                          name="file-upload"
-                          type="file"
-                          className="sr-only"
-                          accept="image/*"
-                          onChange={handleImageUpload}
-                        />
-                      </label>
-                      <p className="pl-1">or drag and drop</p>
-                    </div>
-                    <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-                  </div>
-                </div>
+      <main className="flex-1">
+        {children}
+      </main>
+
+      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full border-t px-4 md:px-6 bg-white">
+        <p className="text-xs text-gray-500">© 2025 SkinScan. All rights reserved.</p>
+        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+          <Link className="text-xs hover:text-teal-600 transition-colors" to="/terms">
+            Terms of Service
+          </Link>
+          <Link className="text-xs hover:text-teal-600 transition-colors" to="/privacy">
+            Privacy
+          </Link>
+        </nav>
+      </footer>
+    </div>
+  );
+};
+
+// Create HomePage component for the landing page content
+const HomePage = () => {
+  return (
+    <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-br from-teal-50 via-cyan-50 to-white">
+      <div className="container px-4 md:px-6 mx-auto">
+        <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+          <div className="flex flex-col justify-center space-y-4">
+            <div className="space-y-2">
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+                Early Detection, <span className="text-teal-600">Powered by AI</span>
+              </h1>
+              <p className="max-w-[600px] text-gray-600 md:text-xl">
+                SkinScan uses advanced AI to analyze your skin and provide instant risk assessments for melanoma and
+                other skin conditions.
+              </p>
+            </div>
+            <div className="flex flex-col gap-2 min-[400px]:flex-row">
+              <Link to="/scan">
+                <button className="inline-flex items-center justify-center px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-lg shadow-lg transition-colors">
+                  Get Started
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </button>
+              </Link>
+              <Link to="/about">
+                <button className="inline-flex items-center justify-center px-6 py-3 border border-teal-200 text-teal-700 hover:bg-teal-50 font-medium rounded-lg transition-colors">
+                  Learn More
+                </button>
+              </Link>
+            </div>
+            <div className="flex items-center space-x-4 text-sm text-gray-600">
+              <div className="flex items-center">
+                <ShieldCheck className="mr-1 h-4 w-4 text-teal-600" />
+                Privacy First
               </div>
-
-              {/* Image Preview */}
-              {selectedImage && (
-                <div className="mt-4">
-                  <img
-                    src={selectedImage}
-                    alt="Preview"
-                    className="max-w-full h-auto rounded-lg"
-                  />
-                </div>
-              )}
-
-              {/* Predict Button */}
-              <button
-                onClick={handlePredict}
-                disabled={!selectedImage}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-300 disabled:cursor-not-allowed"
-              >
-                Analyze Image
-              </button>
-
-              {/* Results Section */}
-              {prediction && (
-                <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-                  <h2 className="text-lg font-medium text-gray-900">Results</h2>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Prediction: <span className="font-medium text-gray-900">{prediction}</span>
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Confidence: <span className="font-medium text-gray-900">{confidence}%</span>
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {/* Hospital Locator */}
-              <div className="mt-6">
-                <div className="flex items-center space-x-2">
-                  <MapPinIcon className="h-5 w-5 text-gray-400" />
-                  <h2 className="text-lg font-medium text-gray-900">Find Nearby Hospitals</h2>
-                </div>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    placeholder="Enter your location"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                  <button className="mt-2 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                    Search Hospitals
-                  </button>
-                </div>
+              <div className="flex items-center">
+                <Stethoscope className="mr-1 h-4 w-4 text-teal-600" />
+                Expert Backed
+              </div>
+              <div className="flex items-center">
+                <MapPin className="mr-1 h-4 w-4 text-teal-600" />
+                Find Specialists
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="relative w-full max-w-[400px] aspect-square bg-gray-100 rounded-2xl shadow-2xl">
+              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg shadow-xl">
+                <div className="text-2xl font-bold text-teal-600">98%</div>
+                <div className="text-sm text-gray-600">Accuracy Rate</div>
+              </div>
+              <div className="absolute -top-6 -right-6 bg-white p-4 rounded-lg shadow-xl">
+                <div className="text-2xl font-bold text-teal-600">&lt; 30s</div>
+                <div className="text-sm text-gray-600">Fast Results</div>
               </div>
             </div>
           </div>
         </div>
-      </main>
-    </div>
-  )
+      </div>
+    </section>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/scan" element={<Scan />} />
+        </Routes>
+      </Layout>
+    </Router>
+  );
 }
 
-export default App
+export default App;
