@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+  
+  <!-- Scanning effect -->
+  <rect x="100" y="50" width="600" height="500" rx="15" stroke="#0D9488" stroke-width="4" stroke-dasharray="10 10"/>
+  <rect x="90" y="100" width="620" height="4" fill="#0D9488" opacity="0.6">
+    <animate attributeName="y" from="100" to="500" dur="3s" repeatCount="indefinite"/>
+  </rect>
+  
+  <!-- Circular nodes representing AI analysis points -->
+  <circle cx="300" cy="200" r="8" fill="#0D9488"/>
+  <circle cx="500" cy="300" r="8" fill="#0D9488"/>
+  <circle cx="400" cy="400" r="8" fill="#0D9488"/>
+  <circle cx="600" cy="250" r="8" fill="#0D9488"/>
+  <circle cx="200" cy="350" r="8" fill="#0D9488"/>
+  
+  <!-- Connection lines between nodes -->
+  <path d="M300 200 L500 300" stroke="#0D9488" stroke-width="2" opacity="0.6"/>
+  <path d="M500 300 L400 400" stroke="#0D9488" stroke-width="2" opacity="0.6"/>
+  <path d="M400 400 L600 250" stroke="#0D9488" stroke-width="2" opacity="0.6"/>
+  <path d="M200 350 L400 400" stroke="#0D9488" stroke-width="2" opacity="0.6"/>
+
+  
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="paint0_linear" x1="0" y1="0" x2="800" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F0FDFA"/>
+      <stop offset="100%" stop-color="#ECFEFF"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Pulse animation for nodes -->
+  <circle cx="300" cy="200" r="12" fill="#0D9488" opacity="0.2">
+    <animate attributeName="r" values="8;16;8" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.2;0;0.2" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="500" cy="300" r="12" fill="#0D9488" opacity="0.2">
+    <animate attributeName="r" values="8;16;8" dur="2s" repeatCount="indefinite" begin="0.4s"/>
+    <animate attributeName="opacity" values="0.2;0;0.2" dur="2s" repeatCount="indefinite" begin="0.4s"/>
+  </circle>
+  <circle cx="400" cy="400" r="12" fill="#0D9488" opacity="0.2">
+    <animate attributeName="r" values="8;16;8" dur="2s" repeatCount="indefinite" begin="0.8s"/>
+    <animate attributeName="opacity" values="0.2;0;0.2" dur="2s" repeatCount="indefinite" begin="0.8s"/>
+  </circle>
+</svg> 

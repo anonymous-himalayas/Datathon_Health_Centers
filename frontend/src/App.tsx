@@ -95,15 +95,13 @@ const HomePage = () => {
             </div>
           </div>
           <div className="flex items-center justify-center">
-            <div className="relative w-full max-w-[400px] aspect-square bg-gray-100 rounded-2xl shadow-2xl">
-              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg shadow-xl">
-                <div className="text-2xl font-bold text-teal-600">98%</div>
-                <div className="text-sm text-gray-600">Accuracy Rate</div>
-              </div>
-              <div className="absolute -top-6 -right-6 bg-white p-4 rounded-lg shadow-xl">
-                <div className="text-2xl font-bold text-teal-600">&lt; 30s</div>
-                <div className="text-sm text-gray-600">Fast Results</div>
-              </div>
+            <div className="relative w-full max-w-[500px]">
+              <img
+                src="../public/hero-image.svg"
+                alt="AI-powered skin analysis visualization"
+                className="w-full h-auto rounded-2xl shadow-2xl object-cover"
+              />
+              
             </div>
           </div>
         </div>
