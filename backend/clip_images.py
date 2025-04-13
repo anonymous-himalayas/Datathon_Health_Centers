@@ -22,7 +22,7 @@ embeddings = []
 labels = []
 
 def create_sample_images():
-    isic_train = pd.read_csv('isic-2024-challenge/train-metadata.csv')
+    isic_train = pd.read_csv('../isic-2024-challenge/train-metadata.csv')
     
     if os.path.exists('sample_images'):
         shutil.rmtree('sample_images')

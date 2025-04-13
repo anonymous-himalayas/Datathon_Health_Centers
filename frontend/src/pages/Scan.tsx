@@ -1,8 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { Upload, AlertCircle, Loader } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
-import * as fs from 'fs';
-import { spawn } from 'child_process';
 
 interface ScanResult {
   prediction: 'benign' | 'malignant';

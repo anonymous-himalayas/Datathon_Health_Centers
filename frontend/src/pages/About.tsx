@@ -1,4 +1,3 @@
-import React from 'react';
 import { ShieldCheck, Stethoscope, MapPin } from 'lucide-react';
 
 const About = () => {
