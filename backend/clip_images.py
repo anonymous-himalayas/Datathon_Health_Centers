@@ -28,7 +28,6 @@ def create_sample_images():
         shutil.rmtree('../sample_images')
     os.makedirs('../sample_images')
     os.makedirs('../sample_images/malignant')
-    shutil.copy('../malig.jpg', '../sample_images/malignant/malig.jpg')
     os.makedirs('../sample_images/benign')
     
     # add malignant images to the directory
