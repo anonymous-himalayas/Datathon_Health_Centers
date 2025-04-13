@@ -14,8 +14,8 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load("ViT-B/32", device=device)
 
 # files
-benign_path = "sample_images/benign"
-malignant_path = "sample_images/malignant"
+benign_path = "../sample_images/benign"
+malignant_path = "../sample_images/malignant"
 
 
 embeddings = []
@@ -24,11 +24,11 @@ labels = []
 def create_sample_images():
     isic_train = pd.read_csv('../isic-2024-challenge/train-metadata.csv')
     
-    if os.path.exists('sample_images'):
-        shutil.rmtree('sample_images')
-    os.makedirs('sample_images')
-    os.makedirs('sample_images/malignant')
-    os.makedirs('sample_images/benign')
+    if os.path.exists('../sample_images'):
+        shutil.rmtree('../sample_images')
+    os.makedirs('../sample_images')
+    os.makedirs('../sample_images/malignant')
+    os.makedirs('../sample_images/benign')
     
     # add malignant images to the directory
     mal_images = isic_train[isic_train['target'] == 1]
@@ -37,8 +37,8 @@ def create_sample_images():
 
     for i in range(len(mal_images)):
         source_path = mal_images[i] + '.jpg'
-        destination_path = os.path.join('sample_images/malignant', source_path).replace("\\","/")
-        shutil.copy('isic-2024-challenge/train-image/image/' + source_path, destination_path) 
+        destination_path = os.path.join('../sample_images/malignant', source_path).replace("\\","/")
+        shutil.copy('../isic-2024-challenge/train-image/image/' + source_path, destination_path) 
        
         
     # add random benign images to the directory
@@ -49,15 +49,15 @@ def create_sample_images():
 
     for i in range(len(benign_images)):
         source_path = benign_images[i] + '.jpg'
-        destination_path = os.path.join('sample_images/benign', source_path)
-        shutil.copy('isic-2024-challenge/train-image/image/' + source_path, destination_path)
+        destination_path = os.path.join('../sample_images/benign', source_path)
+        shutil.copy('../isic-2024-challenge/train-image/image/' + source_path, destination_path)
 
 def add_mole_images_to_benign():
-    moles = random.sample(os.listdir('moles_data'), 500)
+    moles = random.sample(os.listdir('../moles_data'), 500)
     for i in range(len(moles)):
         source_path = moles[i]
-        destination_path = os.path.join('sample_images/benign', source_path)
-        shutil.copy('moles_data/' + source_path, destination_path)
+        destination_path = os.path.join('../sample_images/benign', source_path)
+        shutil.copy('../moles_data/' + source_path, destination_path)
     
 
 def embed_image(image_path):

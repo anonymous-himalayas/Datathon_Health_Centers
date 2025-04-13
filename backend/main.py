@@ -18,8 +18,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-class ImageData(BaseModel):
-    image: str  
+
 
 @app.on_event("startup")
 async def startup_event():
@@ -30,20 +29,17 @@ async def startup_event():
     print(f"Loaded {len(clip_images.embeddings)} images.")
 
 @app.post("/analyze")
-async def analyze_image(image_data: ImageData):
+async def analyze_image(image_data):
     try:
-        # Decode base64 image
+
         image_bytes = base64.b64decode(image_data.image)
         image = Image.open(BytesIO(image_bytes))
         
-        # Save temporarily
         temp_path = "temp_upload.jpg"
         image.save(temp_path)
         
-        # Analyze image
         score, _ = clip_images.predict_image(temp_path)
         
-        # Clean up
         if os.path.exists(temp_path):
             os.remove(temp_path)
             
@@ -53,7 +49,7 @@ async def analyze_image(image_data: ImageData):
         result = "malignant" if score > 0.5 else "benign"
         return {
             "prediction": result,
-            "confidence": 95  # Default confidence score
+            "confidence": score * 100,
         }
         
     except Exception as e:
