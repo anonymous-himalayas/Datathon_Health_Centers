@@ -18,7 +18,8 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-
+class ImageData(BaseModel):
+    image: str
 
 @app.on_event("startup")
 async def startup_event():
@@ -29,9 +30,8 @@ async def startup_event():
     print(f"Loaded {len(clip_images.embeddings)} images.")
 
 @app.post("/analyze")
-async def analyze_image(image_data):
+async def analyze_image(image_data: ImageData):
     try:
-
         image_bytes = base64.b64decode(image_data.image)
         image = Image.open(BytesIO(image_bytes))
         

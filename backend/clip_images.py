@@ -28,6 +28,7 @@ def create_sample_images():
         shutil.rmtree('../sample_images')
     os.makedirs('../sample_images')
     os.makedirs('../sample_images/malignant')
+    shutil.copy('../malig.jpg', '../sample_images/malignant/malig.jpg')
     os.makedirs('../sample_images/benign')
     
     # add malignant images to the directory
@@ -112,11 +113,11 @@ if __name__ == "__main__":
     print(f"Loaded {len(embeddings)} images.")
 
     # test
-    uploaded_img = "normal3.jpg"  
+    uploaded_img = "../disease.jpg"  
     score, _ = predict_image(uploaded_img)
 
     if score is not None:
-        with open("backend/result.txt", "w") as f:
+        with open("result.txt", "w") as f:
             if score > 0.5:
                 f.write("Malignant")
                 print("Malignant")
@@ -124,7 +125,7 @@ if __name__ == "__main__":
                 f.write("Benign")
                 print("Benign")
     else:
-        with open("backend/result.txt", "w") as f:
+        with open("result.txt", "w") as f:
             f.write("Error processing image")
             print("Error processing image")
     

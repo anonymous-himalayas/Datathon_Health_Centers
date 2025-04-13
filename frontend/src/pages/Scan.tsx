@@ -23,7 +23,6 @@ const Scan = () => {
     const file = acceptedFiles[0];
     
     if (file) {
-      // Check file size (max 10MB)
       if (file.size > 10 * 1024 * 1024) {
         setError('File size must be less than 10MB');
         return;
@@ -58,17 +57,19 @@ const Scan = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          image: image.split(',')[1] // Remove data:image/jpeg;base64, prefix
+          image: image.split(',')[1]
         }),
       });
 
       if (!response.ok) {
-        throw new Error('Analysis failed');
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.detail || 'Analysis failed');
       }
 
       const data = await response.json();
       setResult(data);
     } catch (err) {
+      console.error('Error:', err);
       setError('Failed to analyze image. Please try again.');
     } finally {
       setIsAnalyzing(false);
@@ -156,7 +157,7 @@ const Scan = () => {
                   <p className={`${
                     result.prediction === 'benign' ? 'text-green-700' : 'text-red-700'
                   }`}>
-                    Confidence: {result.confidence}%
+                    Chance of Melanoma: {result.confidence}%
                   </p>
                 </div>
 
