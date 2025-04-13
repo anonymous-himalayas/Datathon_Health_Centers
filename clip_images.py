@@ -5,13 +5,11 @@ from PIL import Image
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
-import cv2
 import random
 import shutil
 
 # Set device
 device = "cuda" if torch.cuda.is_available() else "cpu"
-
 
 model, preprocess = clip.load("ViT-B/32", device=device)
 
@@ -43,17 +41,24 @@ def create_sample_images():
         shutil.copy('isic-2024-challenge/train-image/image/' + source_path, destination_path) 
        
         
-        
     # add random benign images to the directory
     benign_images = isic_train[isic_train['target'] == 0]
     benign_images = benign_images['isic_id'].tolist()
 
-    benign_images = random.sample(benign_images, len(mal_images) * 2)
+    benign_images = random.sample(benign_images, len(mal_images) * 4)
 
     for i in range(len(benign_images)):
         source_path = benign_images[i] + '.jpg'
         destination_path = os.path.join('sample_images/benign', source_path)
         shutil.copy('isic-2024-challenge/train-image/image/' + source_path, destination_path)
+
+def add_mole_images_to_benign():
+    moles = random.sample(os.listdir('moles_data'), 500)
+    for i in range(len(moles)):
+        source_path = moles[i]
+        destination_path = os.path.join('sample_images/benign', source_path)
+        shutil.copy('moles_data/' + source_path, destination_path)
+    
 
 def embed_image(image_path):
     try:
@@ -101,12 +106,13 @@ def predict_image(uploaded_image_path, top_k=10):
 
 if __name__ == "__main__":
     print("Loading dataset and computing embeddings...")
-    create_sample_images() 
+    create_sample_images()
+    add_mole_images_to_benign() 
     load_dataset()
     print(f"Loaded {len(embeddings)} images.")
 
     # test
-    uploaded_img = "normal2.jpg"  
+    uploaded_img = "normal3.jpg"  
     score, _ = predict_image(uploaded_img)
 
     if score is not None:
