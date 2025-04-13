@@ -1,4 +1,3 @@
-import React from 'react';
 import { Upload, Search, AlertCircle, MapPin } from 'lucide-react';
 
 const HowItWorks = () => {
