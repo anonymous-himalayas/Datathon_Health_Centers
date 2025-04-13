@@ -112,7 +112,7 @@ const HomePage = () => {
 
 function App() {
   return (
-    <Router>
+    <Router basename="/Datathon_Health_Centers">
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
