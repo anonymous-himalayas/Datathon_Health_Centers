@@ -116,6 +116,15 @@ if __name__ == "__main__":
     score, _ = predict_image(uploaded_img)
 
     if score is not None:
-        print(f"Malignancy likelihood: {round(score * 100, 2)}%")
+        with open("backend/result.txt", "w") as f:
+            if score > 0.5:
+                f.write("Malignant")
+                print("Malignant")
+            else:
+                f.write("Benign")
+                print("Benign")
     else:
-        print("Failed to compute similarity.")
+        with open("backend/result.txt", "w") as f:
+            f.write("Error processing image")
+            print("Error processing image")
+    
