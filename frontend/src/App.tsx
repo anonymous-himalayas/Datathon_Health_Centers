@@ -97,7 +97,7 @@ const HomePage = () => {
           <div className="flex items-center justify-center">
             <div className="relative w-full max-w-[500px]">
               <img
-                src="../public/hero-image.svg"
+                src="/Datathon_Health_Centers/hero-image.svg"
                 alt="AI-powered skin analysis visualization"
                 className="w-full h-auto rounded-2xl shadow-2xl object-cover"
               />
